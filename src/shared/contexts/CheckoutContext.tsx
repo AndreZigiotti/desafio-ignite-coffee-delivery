@@ -1,4 +1,6 @@
+import { ShoppingCart } from "phosphor-react";
 import { createContext, ReactNode, useEffect, useReducer } from "react";
+import { toast } from "react-toastify";
 import { ICartProduct } from "../interfaces/ICartProduct";
 import { ICheckoutContext } from "../interfaces/ICheckoutContext";
 import { ICheckoutState } from "../interfaces/ICheckoutState";
@@ -35,12 +37,20 @@ export function CheckoutContextProvider({ children }: Props) {
   }
 
   function addProduct(product: ICartProduct) {
-    dispatch({
-      type: 'ADD_PRODUCT',
-      payload: {
-        product
-      }
-    })
+    try {
+      dispatch({
+        type: 'ADD_PRODUCT',
+        payload: {
+          product
+        }
+      })
+
+      toast.success('Produto adicionado ao carrinho.', {
+        icon: () => <ShoppingCart weight="fill" />
+      })
+    } catch (err) {
+      toast.error('Não foi possível adicionar o produto ao carrinho.')
+    }
   }
 
   function removeProduct(productId: string) {

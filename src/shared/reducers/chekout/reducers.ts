@@ -16,7 +16,7 @@ export function checkoutReducer(state: ICheckoutState, action: Actions) {
         const productIndex = newState.products.findIndex(prod => prod.product.id === newProduct.product.id)
 
         if(productIndex > -1) {
-          newState.products[productIndex].quantity += newProduct.quantity
+          newState.products[productIndex].quantity =+ newProduct.quantity
         } else {
           newState.products.push(newProduct)
         }

@@ -6,7 +6,7 @@ import { CartContainer } from "./style";
 
 export function Cart() {
   const { products } = useContext(CheckoutContext)
-  const totalProducts = products.length
+  const totalProducts = products?.length
 
   return (
     <CartContainer>

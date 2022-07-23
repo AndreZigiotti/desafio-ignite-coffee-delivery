@@ -1,20 +1,25 @@
 import { Bank, CreditCard, CurrencyDollar, MapPinLine, Money } from "phosphor-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, IconButton } from "../../components";
+import { Button, Container, IconButton, SelectButton } from "../../components";
 import { CheckoutContext } from "../../shared/contexts/CheckoutContext";
+import { PaymentMethods } from "../../shared/models";
 import { AddressForm } from "./AddressForm";
 import { CartItem } from "./CartItem";
 import { CheckoutContainer, ContentBox } from "./style";
 
 export function Checkout() {
-  const { products, removeProduct, changeProductQuantity, subtotal, shippingCost, total } = useContext(CheckoutContext)
+  const { products, paymentMethod, removeProduct, changeProductQuantity, subtotal, shippingCost, total, changePaymentMethod } = useContext(CheckoutContext)
   
   function formatPrice(price: number) {
     return price.toLocaleString('pt-BR', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     })
+  }
+
+  function handlePaymentMethodChange(method: PaymentMethods) {
+    changePaymentMethod(method)
   }
 
   return (
@@ -46,17 +51,29 @@ export function Checkout() {
 
             <div className="content">
               <div className="payment-methods">
-                <IconButton withBorder light Icon={<CreditCard />}>
+                <SelectButton
+                  Icon={<CreditCard />}
+                  onClick={() => handlePaymentMethodChange('creditCard')}
+                  active={paymentMethod === 'creditCard'}
+                >
                   Cartão de crédito
-                </IconButton>
+                </SelectButton>
 
-                <IconButton withBorder light Icon={<Bank />}>
+                <SelectButton
+                  Icon={<Bank />}
+                  onClick={() => handlePaymentMethodChange('debitCard')}
+                  active={paymentMethod === 'debitCard'}
+                >
                   Cartão de débito
-                </IconButton>
+                </SelectButton>
 
-                <IconButton withBorder light Icon={<Money />}>
+                <SelectButton
+                  Icon={<Money />}
+                  onClick={() => handlePaymentMethodChange('money')}
+                  active={paymentMethod === 'money'}
+                >
                   Dinheiro
-                </IconButton>
+                </SelectButton>
               </div>
             </div>
           </ContentBox>

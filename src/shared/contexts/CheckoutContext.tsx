@@ -1,9 +1,10 @@
 import { ShoppingCart } from "phosphor-react";
-import { createContext, ReactNode, useEffect, useReducer } from "react";
+import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
 import { toast } from "react-toastify";
 import { ICartProduct } from "../interfaces/ICartProduct";
 import { ICheckoutContext } from "../interfaces/ICheckoutContext";
 import { ICheckoutState } from "../interfaces/ICheckoutState";
+import { PaymentMethods } from "../models";
 import { checkoutReducer } from "../reducers/chekout/reducers";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 export const CheckoutContext = createContext({} as ICheckoutContext)
 
 export function CheckoutContextProvider({ children }: Props) {
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>('creditCard')
   const [cartState, dispatch] = useReducer<typeof checkoutReducer, ICheckoutState>(
     checkoutReducer,
     {
@@ -72,6 +74,10 @@ export function CheckoutContextProvider({ children }: Props) {
     })
   }
 
+  function changePaymentMethod(method: PaymentMethods) {
+    if(method !== paymentMethod) setPaymentMethod(method)
+  }
+
   useEffect(() => {
     console.log(cartSubtotal)
   }, [cartState])
@@ -83,6 +89,8 @@ export function CheckoutContextProvider({ children }: Props) {
       subtotal: cartSubtotal,
       shippingCost,
       total,
+      changePaymentMethod,
+      paymentMethod,
       removeProduct,
       changeProductQuantity
     }}>

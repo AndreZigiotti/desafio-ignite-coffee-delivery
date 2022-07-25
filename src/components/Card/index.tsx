@@ -18,7 +18,6 @@ export function Card({ imageSrc, title, categories, description, price, onAddCli
   })
 
   function handleAddClick() {
-    console.log('click')
     onAddClick?.(quantity)
   }
 

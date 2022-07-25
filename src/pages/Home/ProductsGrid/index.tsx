@@ -23,13 +23,7 @@ export function ProductsGrid() {
                 description={product.description}
                 categories={product.categories}
                 price={product.price}
-                onAddClick={(quantity) => {
-                  console.log('add')
-                  addProduct({
-                    product: product,
-                    quantity
-                  })
-                }}
+                onAddClick={(quantity) => addProduct({product: product, quantity})}
               />
             ))
           }

@@ -1,15 +1,16 @@
 import { Bank, CreditCard, CurrencyDollar, MapPinLine, Money } from "phosphor-react";
-import { useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, IconButton, SelectButton } from "../../components";
-import { CheckoutContext } from "../../shared/contexts/CheckoutContext";
+import { Button, Container, SelectButton } from "../../components";
+import { useCheckout } from "../../shared/hooks/useCheckout";
 import { PaymentMethods } from "../../shared/models";
 import { AddressForm } from "./AddressForm";
 import { CartItem } from "./CartItem";
 import { CheckoutContainer, ContentBox } from "./style";
 
 export function Checkout() {
-  const { products, paymentMethod, removeProduct, changeProductQuantity, subtotal, shippingCost, total, changePaymentMethod } = useContext(CheckoutContext)
+  const { products, paymentMethod, removeProduct, changeProductQuantity, subtotal, shippingCost, total, changePaymentMethod } = useCheckout()
+  const [isFormValid, setIsFormValid] = useState(false)
   
   function formatPrice(price: number) {
     return price.toLocaleString('pt-BR', {
@@ -36,7 +37,7 @@ export function Checkout() {
               </div>
             </header>
             <div className="content">
-              <AddressForm />
+              <AddressForm onValidityChange={(isValid) => setIsFormValid(isValid)} />
             </div>
           </ContentBox>
 
@@ -121,7 +122,7 @@ export function Checkout() {
                 )
               }
               
-              <Button disabled={!products.length}>Confirmar Pedido</Button>
+              <Button disabled={!products.length || !isFormValid}>Confirmar Pedido</Button>
             </div>
           </ContentBox>
         </div>

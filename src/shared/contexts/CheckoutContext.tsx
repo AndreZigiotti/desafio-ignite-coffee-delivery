@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { ICartProduct } from "../interfaces/ICartProduct";
 import { ICheckoutContext } from "../interfaces/ICheckoutContext";
 import { ICheckoutState } from "../interfaces/ICheckoutState";
+import { IShippingAddress } from "../interfaces/IShippingAddress";
 import { PaymentMethods } from "../models";
 import { checkoutReducer } from "../reducers/chekout/reducers";
 
@@ -15,6 +16,16 @@ export const CheckoutContext = createContext({} as ICheckoutContext)
 
 export function CheckoutContextProvider({ children }: Props) {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>('creditCard')
+  const [shippingAddress, setShippingAddress] = useState<IShippingAddress>({
+    address: '',
+    cep: '',
+    city: '',
+    district: '',
+    number: '',
+    uf: '',
+    complement: ''
+  })
+
   const [cartState, dispatch] = useReducer<typeof checkoutReducer, ICheckoutState>(
     checkoutReducer,
     {
@@ -78,16 +89,18 @@ export function CheckoutContextProvider({ children }: Props) {
     if(method !== paymentMethod) setPaymentMethod(method)
   }
 
-  useEffect(() => {
-    console.log(cartSubtotal)
-  }, [cartState])
+  function updateShippingAddress(address: IShippingAddress) {
+    setShippingAddress(address)
+  }
 
   return (
     <CheckoutContext.Provider value={{
       products: cartState.products,
-      addProduct,
       subtotal: cartSubtotal,
+      addProduct,
       shippingCost,
+      shippingAddress,
+      updateShippingAddress,
       total,
       changePaymentMethod,
       paymentMethod,

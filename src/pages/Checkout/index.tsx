@@ -9,7 +9,7 @@ import { CartItem } from "./CartItem";
 import { CheckoutContainer, ContentBox } from "./style";
 
 export function Checkout() {
-  const { products, paymentMethod, removeProduct, changeProductQuantity, subtotal, shippingCost, total, changePaymentMethod } = useCheckout()
+  const { products, paymentMethod, removeProduct, changeProductQuantity, subtotal, shippingCost, total, changePaymentMethod, confirmOrder } = useCheckout()
   const [isFormValid, setIsFormValid] = useState(false)
   
   function formatPrice(price: number) {
@@ -21,6 +21,10 @@ export function Checkout() {
 
   function handlePaymentMethodChange(method: PaymentMethods) {
     changePaymentMethod(method)
+  }
+
+  function handleOrderConfirmation() {
+    confirmOrder()
   }
 
   return (
@@ -122,7 +126,12 @@ export function Checkout() {
                 )
               }
               
-              <Button disabled={!products.length || !isFormValid}>Confirmar Pedido</Button>
+              <Button
+                disabled={!products.length || !isFormValid}
+                onClick={handleOrderConfirmation}
+              >
+                Confirmar Pedido
+              </Button>
             </div>
           </ContentBox>
         </div>

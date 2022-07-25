@@ -1,5 +1,6 @@
 import { ShoppingCart } from "phosphor-react";
-import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
+import { createContext, ReactNode, useReducer, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ICartProduct } from "../interfaces/ICartProduct";
 import { ICheckoutContext } from "../interfaces/ICheckoutContext";
@@ -15,6 +16,7 @@ type Props = {
 export const CheckoutContext = createContext({} as ICheckoutContext)
 
 export function CheckoutContextProvider({ children }: Props) {
+  const navigate = useNavigate()
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>('creditCard')
   const [shippingAddress, setShippingAddress] = useState<IShippingAddress>({
     address: '',
@@ -93,10 +95,15 @@ export function CheckoutContextProvider({ children }: Props) {
     setShippingAddress(address)
   }
 
+  function confirmOrder() {
+    navigate('/order-confirmation')
+  }
+
   return (
     <CheckoutContext.Provider value={{
       products: cartState.products,
       subtotal: cartSubtotal,
+      confirmOrder,
       addProduct,
       shippingCost,
       shippingAddress,

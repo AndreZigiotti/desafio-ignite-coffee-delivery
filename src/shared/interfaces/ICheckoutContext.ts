@@ -9,6 +9,7 @@ export interface ICheckoutContext {
   total: number
   paymentMethod: PaymentMethods
   shippingAddress: IShippingAddress
+  confirmOrder: () => void
   updateShippingAddress: (address: IShippingAddress) => void
   changePaymentMethod: (method: PaymentMethods) => void
   addProduct: (product: ICartProduct) => void

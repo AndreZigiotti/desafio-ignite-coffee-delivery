@@ -33,7 +33,10 @@ export const BannerContainer = styled.section`
 
     &:first-child {
       flex-grow: 0;
-      flex-basis: ${pxToRem(588)};
+
+      @media ${props => props.theme.devices.desktop} {
+        flex-basis: ${pxToRem(588)};
+      }
     }
 
     & > p {
@@ -45,11 +48,13 @@ export const BannerContainer = styled.section`
   .illustration {
     display: block;
     margin: 0 auto;
+    margin-bottom: 48px;
     width: 100%;
     max-width: ${pxToRem(476)};
 
     @media ${props => props.theme.devices.desktop} {
       margin-right: 0;
+      margin-bottom: 0;
     }
   }
 

@@ -25,7 +25,7 @@ Além disso, é recomendado ter um editor para trabalhar com o código: [VSCode]
 $ git clone https://github.com/AndreZigiotti/desafio-ignite-coffee-delivery
 
 # Acesse a pasta do projeto no terminal
-$ cd desafio-coffee-delivery
+$ cd desafio-ignite-coffee-delivery
 
 # Instale as dependências
 $ npm install
@@ -33,7 +33,7 @@ $ npm install
 # Execute a aplicação em modo de desenvolvimento
 $ npm run dev
 
-# A aplicação iniciará na porta 3000 - acesse http://localhost:3000
+# A aplicação iniciará na porta 5173 - acesse http://localhost:5173
 ```
 
 ## Tecnologias
